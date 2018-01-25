@@ -1,4 +1,5 @@
 'use strict'
+//Un comentario de prueba
 //modulos
     //para el cifrado de password
 var bcrypt = require('bcrypt-nodejs');

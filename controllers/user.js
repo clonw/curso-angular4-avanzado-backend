@@ -97,8 +97,8 @@ function login(req, res){
                                 token: jwt.createToken(user)
                             }); 
                         } else {
-                            }
-                        res.status(200).send({user});
+                            res.status(200).send({user});
+                        }
                     } else {
                         res.status(404).send({
                             message: 'Usuario / pass inválidos'

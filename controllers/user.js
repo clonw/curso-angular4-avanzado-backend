@@ -13,7 +13,10 @@ var jwt = require('../services/jwt');
 //acciones
 function pruebas(req, res){
     res.status(200).send({
-        message: 'Probando el controlador de usuario y la acción pruebas'
+        message: 'Probando el controlador de usuario y la acción pruebas',
+        // este objeto user lo hemos pasado en el midleware en el método ensureAuth,
+        //cuando hemos hecho req.user = payload;
+        user: req.user
     });
 }
 
@@ -117,8 +120,37 @@ function getImageFile(req, res){
     res.status(200).send({menssage: 'get Image File'});
 }
 
+function updateUser(req, res){
+    var userId = req.params.id;
+    var update = req.body;
+
+    if(userId != req.user.sub){
+        return res.status(200).send({
+            message : 'no tienes permisos para actualizar el usuario'
+        });
+    }
+    // con {new:true} lo que hacemos es pedir que nos de el registro que hemos actualizado,
+    // si no nos devolvería el  useerUpdated con el valor que tenía antes en la BD
+    User.findByIdAndUpdate(userId, update, {new:true},(err, userUpdated) => {
+        if(err){
+            res.status(500).send({
+                message:'error al Actualizar usuario'
+            });
+        } else {
+            if(!userUpdated){
+                res.status(400).send({message:'No se ha podido actualizar el usuario'});
+            }else{
+                res.status(200).send({user:userUpdated});
+            }
+        }
+    });
+
+
+}
+
 module.exports = {
     pruebas,
     saveUser,
-    login
+    login,
+    updateUser
 };

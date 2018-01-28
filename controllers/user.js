@@ -4,6 +4,8 @@
     //para el cifrado de password
 var bcrypt = require('bcrypt-nodejs');
 var fs = require('fs');
+    // nos permite acceder a rutas directamente en nuestro sistema de archivos
+var path = require('path');
 
 //modelos
 var User = require('../models/user');
@@ -117,9 +119,7 @@ function login(req, res){
 }
 
 
-function getImageFile(req, res){
-    res.status(200).send({menssage: 'get Image File'});
-}
+
 
 function updateUser(req, res){
     var userId = req.params.id;
@@ -195,11 +195,28 @@ function uploadImage(req, res){
     }else{
         res.status(200).send({message:'No se han subido ficheros'});
     }
+
 }
+
+
+function getImageFile(req, res){
+    var imageFile = req.params.imageFile;
+    var path_file = './uploads/users/' + imageFile;
+
+    fs.exists(path_file, function(exists){
+        if(exists){
+            res.sendFile(path.resolve(path_file));
+        }else{
+            res.status(404).send({message: 'La imagen no existe'});
+        }
+    });
+}
+
 module.exports = {
     pruebas,
     saveUser,
     login,
     updateUser,
-    uploadImage
+    uploadImage,
+    getImageFile
 };

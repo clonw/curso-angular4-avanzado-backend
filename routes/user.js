@@ -19,4 +19,5 @@ api.post('/login', UserController.login);
 //para actualozar algo de la BBDD
 api.put('/update-user/:id',md_auth.ensureAuth, UserController.updateUser);
 api.post('/upload-image-user/:id',[md_auth.ensureAuth, md_upload], UserController.uploadImage);
+api.get('/get-image-file/:imageFile', UserController.getImageFile);
 module.exports = api;

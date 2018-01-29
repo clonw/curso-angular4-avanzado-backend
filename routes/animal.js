@@ -14,5 +14,6 @@ var md_upload = multipart({uploadDir: './uploads/animals'});
 
 //pasamos md_auth como midleware, se ejecutará antes que UserController.pruebas. además  md_auth.ensureAuth ejecutará el método interno next() para pasar a UserController.pruebas
 api.get('/pruebas-animales',md_auth.ensureAuth, AnimalController.pruebas);
+api.post('/animal',md_auth.ensureAuth, AnimalController.saveAnimal);
 
 module.exports = api;

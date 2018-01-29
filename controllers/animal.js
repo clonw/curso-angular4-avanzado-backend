@@ -50,7 +50,25 @@ function saveAnimal(req, res){
     }
 }
 
+function getAnimals(req, res){
+    // en {} lo pasamos vacío nos devuelve todos, esto significa que le hemos pasado un where vacío
+    //Con populate lo que hace es coger el campo "id" que es una referencia de User y me carga
+    //todo el documento asociado del usuario
+    Animal.find({}).populate({path: 'user'}).exec((err, animals) =>{
+        if(err){
+            res.status(500).send({message:'Error en la petición'});
+        } else{
+            if(!animals){
+                res.status(404).send({message:'No hay anoimales'});
+            } else{
+                res.status(200).send({animals});
+            }
+        }
+    });
+}
+
 module.exports = {
     pruebas,
-    saveAnimal
+    saveAnimal,
+    getAnimals
 };

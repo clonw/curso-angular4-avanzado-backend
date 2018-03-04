@@ -130,6 +130,10 @@ function updateUser(req, res){
             message : 'no tienes permisos para actualizar el usuario'
         });
     }
+
+    // Quitamos el password del objeto que vamos a actualizar
+    delete update.password;
+    
     // con {new:true} lo que hacemos es pedir que nos de el registro que hemos actualizado,
     // si no nos devolvería el  useerUpdated con el valor que tenía antes en la BD
     User.findByIdAndUpdate(userId, update, {new:true},(err, userUpdated) => {
@@ -141,6 +145,7 @@ function updateUser(req, res){
             if(!userUpdated){
                 res.status(400).send({message:'No se ha podido actualizar el usuario'});
             }else{
+                userUpdated.password = undefined;
                 res.status(200).send({user:userUpdated});
             }
         }

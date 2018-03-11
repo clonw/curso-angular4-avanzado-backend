@@ -2,7 +2,7 @@
 
 var jwt = require('jwt-simple');
 var moment = require('moment');
-var secret = 'clave:secreta_del_curso_de_angular4avanzado';
+var secret = 'clae:secreta_del_curso_de_angular4avanzado';
 
 exports.ensureAuth = function(req, res, next){
     if(!req.headers.authorization){

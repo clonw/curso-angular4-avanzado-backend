@@ -69,14 +69,14 @@ function getAnimals(req, res){
 
 function getAnimal(req, res) {
     var animalId = req.params.id;
-
+    
     Animal.findById(animalId).populate({path:'user'}).exec( (err, animal)=>{
         if(err){
             res.status(500).send({message:'Error en la petición'});
         } else if(!animal){
             res.status(500).send({message:'No se ha encontrado el animal'});
         } else{
-            res.status(200).send(animal);
+            res.status(200).send({animal});
         }
     });
 }
